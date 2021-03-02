@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <title>ETF加密构造器</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Material Design for Bootstrap CSS -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <h1>ETF加密构造器 v1.0</h1>
+    <br/>
+    <br/>
+    <br/>
+    <div class="container">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">您的地址</span>
+        </div>
+        <input id='address' type="text" class="form-control" aria-label="您的地址" aria-describedby="inputGroup-sizing-default">
+      </div>
+    </div>
+    <br/>
+    <div class="container">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">目标合约地址</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#" onclick="$('#contract').val('0x72E662Fb393DCB9c6d96B6d63D13Eb84370fd583');">分红池</a>
+          <a class="dropdown-item" href="#" onclick="$('#contract').val('0xF769E8993f10bE2fc0032863f2C63336Cc21478C');">保险池</a>
+          <a class="dropdown-item" href="#" onclick="$('#contract').val('0x350BDC46d931712d83ef989725Ba4904C487F360');">激励池</a>
+          <a class="dropdown-item" href="#" onclick="$('#contract').val('0xa482246fFFBf92659A22525820C665D4aFfCF97B');">抽奖池</a>
+        </div>
+      </div>
+      <input type="text" class="form-control" aria-label="Text input with dropdown button" disabled=true id='contract'>
+    </div>
+<br/><br/><br/>
+<button type="button" class="btn btn-outline-primary btn-lg" onclick="fire()">构造</button>
+    </div>
+
+<br/><br/><br/>
+    <div class="container">
+      <p>sign:  <span/ id='1'></span></p>
+      <p>amount:  <span/ id='2'></span></p>
+      <p>hash:  <span/ id='3'></span></p>
+      <p>data:  <span/ id='4'></span></p>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/tether/1.4.7/js/tether.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.iife.min.js"></script>    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+  </body>
+  <script>
+  function fire(){
+  if(!$("#address").val()){
+    alert('请填写正确的以太坊地址');
+  }
+  if(!$("#contract").val()){
+    alert('请选择合约地址');
+  }
+  var address1 = $("#address").val();
+  var contract1 = null;
+  if ($("#contract").val() == '0x72E662Fb393DCB9c6d96B6d63D13Eb84370fd583'){
+    contract1 = 'main';
+  }
+  if ($("#contract").val() == '0xF769E8993f10bE2fc0032863f2C63336Cc21478C'){
+    contract1 = 'cover';
+  }
+  if ($("#contract").val() == '0x350BDC46d931712d83ef989725Ba4904C487F360'){
+    contract1 = 'top';
+  }
+  if ($("#contract").val() == '0xa482246fFFBf92659A22525820C665D4aFfCF97B'){
+    contract1 = 'loftETH';
+  }
+  var opt={"address":address1,"contract":contract1};
+  var res=null;
+  $.ajax({
+      type: "post",
+      url: "https://etherfree.io/claimInfo",
+        dataType : "json",
+        data: JSON.stringify(opt),
+      success: function (d) {
+        if (d.status==9005){
+          alert('请填写正确的以太坊地址');
+        }
+        else{
+          $('#1').html(d.data.sign);
+          $('#2').html(d.data.amount);
+          $('#3').html(d.data.hash);
+          $('#4').html(d.data.data);
+        }
+      }
+    });
+}
+
+</script>
+</html>
