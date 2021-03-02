@@ -1,0 +1,19 @@
+	if(window.sessionStorage){   
+		var language = sessionStorage.getItem("language");
+		var lanItem = sessionStorage.getItem("lanItem");
+			if(language!=null && lanItem!=null){
+				$(".language").attr("class", language);
+				$(".language").next().remove();
+				languages(Number(lanItem));
+			}else{
+				$(".language").attr("class", "language language_en");
+				$(".language").next().remove();
+				languages(2);
+			}
+	}else{
+		$(".language").attr("class", "language language_en");
+		$(".language").next().remove();
+		languages(2);
+	}   
+$
+}
